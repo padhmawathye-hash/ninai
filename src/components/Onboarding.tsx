@@ -89,11 +89,6 @@ export const Onboarding: React.FC<OnboardingProps> = () => {
                     }}>
                         NINAI
                     </h1>
-                    <p style={{
-                        fontSize: '1rem', color: '#666', lineHeight: 1.5, margin: 0, fontWeight: 500
-                    }}>
-                        Networking Interface N AI
-                    </p>
                 </div>
 
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px' }}>
