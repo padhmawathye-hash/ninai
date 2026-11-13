@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { hasDefaultAdminPassword } from '../../services/auth';
 import { getApiBase, setApiBase } from '../../services/api';
 import { toErrorMessage } from '../../services/errors';
 import { Button } from '../ui/Misc';
 import { Field, TextInput } from '../ui/Form';
 import { Icon } from '../ui/Icon';
+import logoUrl from '../../assets/logo-white.png';
+import logoDarkUrl from '../../assets/logo.png';
 
 export const LoginScreen: React.FC = () => {
     const { login } = useAuth();
@@ -16,7 +17,6 @@ export const LoginScreen: React.FC = () => {
     const [error, setError] = useState('');
     const [serverOpen, setServerOpen] = useState(false);
     const [serverUrl, setServerUrl] = useState(() => getApiBase());
-    const firstRun = hasDefaultAdminPassword();
     // A configured server means the accounts live on the server, so the local
     // first-run default no longer applies.
     const hasServer = getApiBase() !== 'http://localhost:3001/api';
@@ -38,7 +38,7 @@ export const LoginScreen: React.FC = () => {
         <div className="ws-auth-screen">
             <div className="ws-auth-visual">
                 <div className="ws-auth-brand">
-                    <img src="./logo.png" alt="" onError={e => { e.currentTarget.style.display = 'none'; }} />
+                    <img src={logoUrl} alt="NINAI" className="ws-auth-logo" />
                     <span>NINAI</span>
                 </div>
                 <h1>One workspace for the work that matters.</h1>
@@ -53,7 +53,7 @@ export const LoginScreen: React.FC = () => {
             <div className="ws-auth-panel">
                 <form className="ws-auth-card" onSubmit={submit}>
                     <div className="ws-auth-card-head">
-                        <div className="ws-auth-mini-logo">N</div>
+                        <img src={logoDarkUrl} className="ws-auth-mini-logo" alt="" />
                         <div>
                             <h2>Sign in to NINAI</h2>
                             <p>Use your workspace account.</p>
@@ -99,21 +99,6 @@ export const LoginScreen: React.FC = () => {
                         Sign in
                     </Button>
 
-                    {firstRun && !hasServer && (
-                        <div className="ws-auth-hint">
-                            <strong>First time?</strong>
-                            <span>Default admin: <code>admin@ninai.app</code> / <code>ninai-admin</code></span>
-                            <span>Change this password in Settings after signing in.</span>
-                        </div>
-                    )}
-
-                    {firstRun && hasServer && (
-                        <div className="ws-auth-hint">
-                            <strong>Shared workspace</strong>
-                            <span>Sign in with the account your team uses. If you do not have one yet, ask whoever set up the workspace.</span>
-                        </div>
-                    )}
-
                     {serverOpen ? (
                         <div className="ws-auth-hint">
                             <strong>Server address</strong>
@@ -148,7 +133,9 @@ export const LoginScreen: React.FC = () => {
                     )}
 
                     <p className="ws-auth-footnote">
-                        <Icon name="lock" size={12} /> Local-first • accounts are stored on this device
+                        <Icon name="lock" size={12} /> {hasServer
+                            ? 'Shared workspace • your records live on the server'
+                            : 'Local-first • accounts are stored on this device'}
                     </p>
                 </form>
             </div>

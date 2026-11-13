@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { db } from '../db';
 import { importBackup } from '../utils/export';
+import logoUrl from '../assets/logo.png';
 
 interface OnboardingProps {
     onComplete: () => void;
@@ -77,7 +78,7 @@ export const Onboarding: React.FC<OnboardingProps> = () => {
             }}>
                 {/* Logo Image */}
                 <img
-                    src="./logo.png"
+                    src={logoUrl}
                     alt="Ninai Logo"
                     style={{ width: '80px', height: '80px', objectFit: 'contain' }}
                 />
