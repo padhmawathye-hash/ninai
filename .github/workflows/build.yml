@@ -6,12 +6,9 @@ on:
     branches: [main]
   pull_request:
 
-# Runs are queued rather than cancelled. Cancelling the previous run also
-# cancelled the macOS arm64 job, so the Apple silicon installer never finished
-# building. The newest run is simply the last one to finish.
-concurrency:
-  group: build-${{ github.ref }}
-  cancel-in-progress: false
+# No concurrency group. GitHub cancels any previously *pending* job in a
+# group when a new run arrives, and the macOS arm64 job always waits for a
+# runner, so every push killed it before it could finish.
 
 jobs:
   build:
